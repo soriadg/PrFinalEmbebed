@@ -8,5 +8,5 @@
 #define MQTT_USERNAME ""
 #define MQTT_PASSWORD ""
 
-#define MQTT_TOPIC_ROOT "escom/iot/equipo7/reed-monitor"
+#define MQTT_TOPIC_ROOT "escom/iot/reed-monitor"
 #define DEVICE_ID "reed-monitor-esp32"

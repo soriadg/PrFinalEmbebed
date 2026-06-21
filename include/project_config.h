@@ -12,7 +12,7 @@ static const uint16_t MQTT_PORT = 1883;
 static const char* MQTT_USERNAME = "";
 static const char* MQTT_PASSWORD = "";
 
-static const char* MQTT_TOPIC_ROOT = "escom/iot/equipo7/reed-monitor";
+static const char* MQTT_TOPIC_ROOT = "escom/iot/reed-monitor";
 static const char* DEVICE_ID = "reed-monitor-esp32";
 
 constexpr size_t COMPARTMENT_COUNT = 7;
