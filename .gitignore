@@ -9,6 +9,7 @@ venv/
 .pio/
 .vscode/
 .codex
+docs/
 
 *.aux
 *.log
