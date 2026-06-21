@@ -10,6 +10,13 @@ venv/
 .vscode/
 .codex
 docs/
+subscriber/
+mosquitto/
+tests/
+tools/
+README.md
+docker-compose.yml
+P®øyecto Final.docx
 
 *.aux
 *.log
