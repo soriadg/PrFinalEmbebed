@@ -1,0 +1,14 @@
+%%{init: {"theme": "base", "themeVariables": {"background": "#ffffff", "primaryColor": "#ffffff", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#f2f2f2", "tertiaryColor": "#ffffff", "fontFamily": "Arial"}}}%%
+flowchart TB
+  ESP["ESP32<br/>192.168.1.x<br/>Publisher MQTT"]
+  AP["Router / AP WiFi<br/>SSID de laboratorio"]
+  SBC["SBC o PC servidor<br/>Mosquitto :1883<br/>WebSocket :9001"]
+  DASH["Dashboard web<br/>HTTP :8080"]
+  OP["Laptop / navegador<br/>operador"]
+
+  ESP <-->|"WiFi TCP/IP"| AP
+  AP <-->|"LAN"| SBC
+  SBC <-->|"Docker network"| DASH
+  OP -->|"HTTP"| DASH
+  ESP -->|"MQTT TCP 1883"| SBC
+  DASH -->|"MQTT TCP 1883"| SBC

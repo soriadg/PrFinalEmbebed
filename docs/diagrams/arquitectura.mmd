@@ -1,0 +1,37 @@
+%%{init: {"theme": "base", "themeVariables": {"background": "#ffffff", "primaryColor": "#ffffff", "primaryTextColor": "#000000", "primaryBorderColor": "#000000", "lineColor": "#000000", "secondaryColor": "#f2f2f2", "tertiaryColor": "#ffffff", "fontFamily": "Arial"}}}%%
+flowchart LR
+  subgraph HW["Capa de hardware"]
+    R1["Reed switch 1"]
+    R2["Reed switch 2"]
+    R3["Reed switch 3"]
+    R4["Reed switch 4"]
+    R5["Reed switch 5"]
+    R6["Reed switch 6"]
+    R7["Reed switch 7"]
+    ESP["ESP32 publisher<br/>Firmware C++ / Arduino"]
+    LED["LED indicador<br/>alarma local"]
+  end
+
+  subgraph NET["Capa MQTT"]
+    WIFI["Red WiFi"]
+    BROKER["Eclipse Mosquitto<br/>Broker MQTT"]
+  end
+
+  subgraph APP["Capa de aplicacion"]
+    DASH["Dashboard Python<br/>subscriber + actuador digital"]
+    WEB["Navegador web<br/>operador"]
+  end
+
+  R1 --> ESP
+  R2 --> ESP
+  R3 --> ESP
+  R4 --> ESP
+  R5 --> ESP
+  R6 --> ESP
+  R7 --> ESP
+  ESP --> LED
+  ESP -->|"publish QoS 1"| WIFI
+  WIFI --> BROKER
+  BROKER -->|"subscribe"| DASH
+  DASH -->|"command/request-sync<br/>command/set-monitoring"| BROKER
+  DASH --> WEB

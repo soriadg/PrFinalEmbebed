@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monitor IoT de Compartimentos</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">ESCOM · MQTT · 7 Reed Switch</p>
+          <h1>Monitor de apertura de compartimentos</h1>
+          <p class="subtitle">
+            Supervisión en tiempo real del estado de siete compartimentos usando MQTT,
+            broker Mosquitto y dashboard suscriptor con alarma digital.
+          </p>
+        </div>
+        <div class="status-panel">
+          <div class="status-chip" id="publisherStatus">Publisher desconectado</div>
+          <div class="status-chip" id="monitoringStatus">Monitoreo activo</div>
+          <div class="status-metric">
+            <span>Abiertos</span>
+            <strong id="openCount">0</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="alarm-banner" id="alarmBanner">
+        <div>
+          <strong>Sin alarmas activas</strong>
+          <p id="alarmMessage">Todos los compartimentos reportan estado cerrado.</p>
+        </div>
+        <div class="actions">
+          <button id="ackButton">Reconocer alarma</button>
+          <button id="syncButton" class="secondary">Solicitar sincronización</button>
+          <button id="monitorButton" class="secondary">Desactivar monitoreo</button>
+        </div>
+      </section>
+
+      <section class="grid" id="compartmentGrid"></section>
+
+      <section class="timeline">
+        <div class="section-head">
+          <h2>Eventos recientes</h2>
+          <p>Historial entregado por el suscriptor a partir de los tópicos MQTT.</p>
+        </div>
+        <div id="eventList" class="event-list"></div>
+      </section>
+    </main>
+
+    <template id="cardTemplate">
+      <article class="compartment-card">
+        <header>
+          <p class="label"></p>
+          <span class="badge"></span>
+        </header>
+        <strong class="state"></strong>
+        <dl>
+          <div>
+            <dt>Aperturas</dt>
+            <dd class="openings"></dd>
+          </div>
+          <div>
+            <dt>Último cambio</dt>
+            <dd class="lastChange"></dd>
+          </div>
+        </dl>
+      </article>
+    </template>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
+
