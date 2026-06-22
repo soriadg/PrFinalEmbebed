@@ -185,12 +185,3 @@ Si el broker corre en una SBC del laboratorio:
 5. Configura esa IP en `firmware/esp32_reed_monitor/include/secrets.h`.
 
 La contraseña que compartiste para la SBC puede usarse sólo en laboratorio; no la publiques si este repositorio se sube a GitHub.
-
-## Entregables cubiertos
-
-- firmware del embebido
-- broker MQTT configurable
-- suscriptor con interfaz digital
-- `docker-compose.yml` para puntos extra
-- `README.md` replicable
-- base de reporte técnico para convertir a PDF
