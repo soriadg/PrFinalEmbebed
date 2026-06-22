@@ -1,0 +1,53 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────
+#  Docker Compose — Monitor IoT de compartimentos reed switch
+#  Levanta: broker Mosquitto + dashboard Python (subscriber)
+#
+#  Uso:
+#    docker compose up --build          # primera vez
+#    docker compose up                  # siguientes arranques
+#    docker compose down                # detener y limpiar
+# ─────────────────────────────────────────────────────────────
+
+services:
+
+  # ── Broker MQTT ──────────────────────────────────────────────
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    container_name: reed-monitor-broker
+    restart: unless-stopped
+    ports:
+      - "1883:1883"   # MQTT estándar (ESP32 y dashboard)
+      - "9001:9001"   # WebSocket (cliente en navegador, opcional)
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    healthcheck:
+      test: ["CMD", "mosquitto_pub", "-h", "localhost", "-t", "health/check", "-m", "ping", "-q", "0"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── Subscriber + Dashboard web ────────────────────────────────
+  dashboard:
+    build:
+      context: ./subscriber
+      dockerfile: Dockerfile
+    container_name: reed-monitor-dashboard
+    restart: unless-stopped
+    ports:
+      - "8080:8080"   # Interfaz web para el operador
+    environment:
+      MQTT_HOST: mosquitto          # nombre del servicio en la red interna
+      MQTT_PORT: "1883"
+      MQTT_TOPIC_ROOT: "escom/iot/reed-monitor"
+      DASHBOARD_PORT: "8080"
+    depends_on:
+      mosquitto:
+        condition: service_healthy
+
+networks:
+  default:
+    name: reed-monitor-net
